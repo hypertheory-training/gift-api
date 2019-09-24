@@ -4,25 +4,23 @@ import { HolidayPost } from './models';
 
 @Controller('holidays')
 export class HolidaysController {
+  constructor(private service: HolidaysService) {}
 
-    constructor(private service: HolidaysService) { }
+  @Get()
+  async getHolidays() {
+    return new Promise(res => {
+      setTimeout(() => res(this.service.getAll()), 250);
+    });
+  }
 
-    @Get()
-    async getHolidays() {
-        return new Promise((res) => {
-            setTimeout(() => res(this.service.getAll()), 250);
-        });
-
+  @Post()
+  async addHoliday(@Body() holiday: HolidayPost) {
+    if (holiday.name.toLowerCase() === "president's day") {
+      throw new HttpException('Nate hates that holiday.', 400);
     }
-
-    @Post()
-    async addHoliday(@Body() holiday: HolidayPost) {
-        if (holiday.name.toLowerCase() === 'president\'s day') {
-            throw new HttpException('Nate hates that holiday.', 400);
-        }
-        const result = this.service.addOne(holiday);
-        return new Promise((res) => {
-            setTimeout(() => res(result), 3000);
-        });
-    }
+    const result = this.service.addOne(holiday);
+    return new Promise(res => {
+      setTimeout(() => res(result), 3000);
+    });
+  }
 }
