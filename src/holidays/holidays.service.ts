@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { HolidayResponseItem, HolidayResponse } from './models';
-
+import { HolidayResponseItem, HolidayResponse, HolidayPost } from './models';
+import * as cuid from 'cuid';
 @Injectable()
 export class HolidaysService {
     holidays: HolidayResponseItem[] = [
@@ -23,5 +23,12 @@ export class HolidaysService {
 
     getAll() {
         return ({ holidays: this.holidays } as HolidayResponse);
+    }
+
+    addOne(holiday: HolidayPost) {
+        const newId = cuid();
+        const newHoliday = { ...holiday, id: newId } as HolidayResponseItem;
+        this.holidays.push(newHoliday);
+        return newHoliday;
     }
 }

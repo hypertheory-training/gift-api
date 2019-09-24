@@ -7,3 +7,9 @@ export interface HolidayResponseItem {
 export interface HolidayResponse {
     holidays: HolidayResponseItem[];
 }
+
+export class HolidayPost {
+
+    name: string;
+    date: string;
+}

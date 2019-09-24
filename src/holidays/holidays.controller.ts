@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { HolidaysService } from './holidays.service';
+import { HolidayPost } from './models';
 
 @Controller('holidays')
 export class HolidaysController {
@@ -12,5 +13,13 @@ export class HolidaysController {
             setTimeout(() => res(this.service.getAll()), 250);
         });
 
+    }
+
+    @Post()
+    async addHoliday(@Body() holiday: HolidayPost) {
+        const result = this.service.addOne(holiday);
+        return new Promise((res) => {
+            setTimeout(() => res(result), 3000);
+        });
     }
 }
